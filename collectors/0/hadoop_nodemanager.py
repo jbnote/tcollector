@@ -21,7 +21,7 @@ REPLACEMENTS = {
 }
 
 def main(args):
-    rm = Hadoop(replacements=REPLACEMENTS, name='resourcemanager', delay=90, port=8088)
+    rm = Hadoop(replacements=REPLACEMENTS, name='nodemanager', delay=15, port=8042)
     return rm.loop()
 
 if __name__ == "__main__":
