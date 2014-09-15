@@ -12,7 +12,9 @@
 # of the GNU Lesser General Public License along with this program.  If not,
 # see <http://www.gnu.org/licenses/>.
 
-import httplib
+import os
+import requests
+from requests_kerberos import HTTPKerberosAuth, OPTIONAL
 try:
     import json
 except ImportError:
@@ -32,16 +34,15 @@ class HadoopHttp(object):
     def __init__(self, service, daemon, host, port, uri="/jmx"):
         self.service = service
         self.daemon = daemon
-        self.port = port
-        self.host = host
-        self.uri = uri
-        self.server = httplib.HTTPConnection(self.host, self.port)
-        self.server.connect()
+        self.url = "http://" + host + ":" + str(port) + uri
+        self.session = requests.Session()
+        self.auth = HTTPKerberosAuth(mutual_authentication=OPTIONAL)
 
     def request(self):
-        self.server.request('GET', self.uri)
-        resp = self.server.getresponse()
-        return json.loads(resp.read())
+        r = self.session.get(self.url, auth=self.auth)
+        if r.status_code != 200:
+            raise Exception("Could not get jmx data through HTTP transport: error " + str(r.status_code))
+        return json.loads(r.content)
 
     def poll(self):
         """
