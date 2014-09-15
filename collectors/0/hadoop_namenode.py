@@ -14,6 +14,7 @@
 
 import sys
 import time
+import socket
 
 try:
     import json
@@ -39,7 +40,7 @@ class HadoopNameNode(HadoopHttp):
     """
 
     def __init__(self):
-        super(HadoopNameNode, self).__init__('hadoop', 'namenode', 'localhost', 50070)
+        super(HadoopNameNode, self).__init__('hadoop', 'namenode', socket.gethostname(), 50070)
 
     def emit(self):
         current_time = int(time.time())
