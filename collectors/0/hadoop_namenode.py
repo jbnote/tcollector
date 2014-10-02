@@ -24,13 +24,6 @@ except ImportError:
 from collectors.lib import utils
 from collectors.lib.hadoop_http import HadoopHttp
 
-
-REPLACEMENTS = {
-    "rpcdetailedactivityforport": ["rpc_activity"],
-    "rpcactivityforport": ["rpc_activity"]
-}
-
-
 class HadoopNameNode(HadoopHttp):
     """
     Class that will retrieve metrics from an Apache Hadoop DataNode's jmx page.
@@ -46,9 +39,6 @@ class HadoopNameNode(HadoopHttp):
         current_time = int(time.time())
         metrics = self.poll()
         for context, metric_name, value in metrics:
-            for k, v in REPLACEMENTS.iteritems():
-                if any(c.startswith(k) for c in context):
-                    context = v
             self.emit_metric(context, current_time, metric_name, value)
 
 
