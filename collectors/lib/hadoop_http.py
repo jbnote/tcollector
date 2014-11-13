@@ -12,6 +12,7 @@
 # of the GNU Lesser General Public License along with this program.  If not,
 # see <http://www.gnu.org/licenses/>.
 
+import re
 import os
 import requests
 from requests_kerberos import HTTPKerberosAuth, OPTIONAL
@@ -56,7 +57,8 @@ class HadoopHttp(object):
             if (not bean['name']) or (not "name=" in bean['name']):
                 continue
             #split the name string
-            context = bean['name'].split("name=")[1].split(",sub=")
+            bean_name = bean['name'].split("name=")[1]
+            context = re.split(",sub=|,q[0-9]+=", bean_name)
             # Create a set that keeps the first occurrence
             context = OrderedDict.fromkeys(context).keys()
             # lower case and replace spaces.
