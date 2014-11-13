@@ -16,8 +16,6 @@ import sys
 from collectors.lib.hadoop import Hadoop
 
 REPLACEMENTS = {
-    "rpcdetailedactivityforport": ["rpc_activity"],
-    "rpcactivityforport": ["rpc_activity"]
 }
 
 def main(args):
