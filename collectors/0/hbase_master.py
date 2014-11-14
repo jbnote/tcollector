@@ -14,6 +14,7 @@
 
 import sys
 import time
+import socket
 
 try:
     import json
@@ -35,7 +36,7 @@ class HBaseMaster(HadoopHttp):
     """
 
     def __init__(self):
-        super(HBaseMaster, self).__init__('hbase', 'master', 'localhost', 60010)
+        super(HBaseMaster, self).__init__('hbase', 'master', socket.gethostname(), 60010)
 
     def emit(self):
         current_time = int(time.time())
